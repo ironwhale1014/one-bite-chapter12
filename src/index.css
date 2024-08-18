@@ -6,3 +6,15 @@
 body * {
     font-family: "jalnan", serif;
 }
+
+html, body{
+    background-color: lightblue;
+}
+
+#root{
+    padding: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    min-height: 100vh;
+}
