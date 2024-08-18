@@ -1,27 +1,53 @@
 import Header from "../components/Header.jsx";
 import Button from "../components/Button.jsx";
 import DiaryList from "../components/DiaryList.jsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {diaryContext} from "../App.jsx";
 
-const Home = ()=>{
+function monthlyData(pivotDate, data) {
 
+    const beginDate = new Date(pivotDate.getFullYear(), pivotDate.getMonth(), 1, 0, 0, 0);
+
+    const endDate = new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1, 0, 23, 59, 59, 59);
+
+
+    return data.filter((item) => {
+        return item.createdDate >= beginDate && item.createdDate <= endDate;
+    });
+}
+
+
+const Home = () => {
+
+
+    const [pivotDate, setPivotDate] = useState(new Date());
     const data = useContext(diaryContext);
 
+    let filteredData = monthlyData(pivotDate, data);
+
+
     //날짜 변환
-    const date = new Date("2024-02-19").getTime();
-    const createdDate = new Date(date);
-    const year = createdDate.getFullYear();
-    const month = createdDate.getMonth()+1;
+    const year = pivotDate.getFullYear();
+    const month = pivotDate.getMonth() + 1;
     // -----------//
 
-    return(
+
+    const onPrevious = () => {
+        setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth()-1, 1,0,0,0,0));
+    }
+
+    const onNext = () => {
+        setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1, 1,0,0,0,0));
+    }
+
+
+    return (
         <div>
             <Header title={`${year}년 ${month}월`}
-                leftChild={<Button text={"<"} type={""}/>}
-                rightChild={<Button text={">"}/>}
+                    leftChild={<Button text={"<"} type={""} onClick={onPrevious}/>}
+                    rightChild={<Button text={">"} onClick={onNext}/>}
             />
-            <DiaryList data={data}/>
+            <DiaryList data={filteredData}/>
         </div>
     );
 }
