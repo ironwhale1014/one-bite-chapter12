@@ -1,0 +1,24 @@
+.header{
+    display: flex;
+    align-items: center;
+}
+
+.header div{
+    display: flex;
+}
+
+.header .title{
+    width: 50%;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.header .leftChild{
+    width: 25%;
+    justify-content: start;
+}
+
+.header .rightChild{
+    width: 25%;
+    justify-content: end;
+}
