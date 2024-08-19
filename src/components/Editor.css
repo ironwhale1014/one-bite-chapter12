@@ -1,0 +1,36 @@
+.editor {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.date input {
+    border: none;
+    background: rgb(246, 246, 246);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.emotion_list_wrapper {
+    display: flex;
+    gap: 2%;
+    justify-content: space-around;
+}
+
+
+textarea {
+    width: 100%;
+    min-height: 200px;
+    border: none;
+    background-color: rgb(246, 246, 246);
+    border-radius: 10px;
+    resize: vertical;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.button {
+    display: flex;
+    justify-content: space-between;
+}
