@@ -3,6 +3,8 @@ import Button from "./Button.jsx";
 import {emotionData} from "../constants/emtionData.jsx";
 import EmotionItem from "./EmotionItem.jsx";
 import {useState} from "react";
+import moment from "moment-timezone";
+import dateToString from "../util/dateToString.jsx";
 
 const Editor = () => {
 
@@ -20,23 +22,22 @@ const Editor = () => {
                 [name]: value
             }
         )
-        console.log(input);
     }
 
 
     return (<div className="editor">
         <section className="date">
             <h4>오늘의 날짜</h4>
-            <input type="date" onChange={onInputChange} name="createDate"/>
+            <input type="date" onChange={onInputChange} name="createDate" value={dateToString(input.createDate)}/>
         </section>
         <section className="emotion">
             <h4>오늘의 감정</h4>
             <div className="emotion_list_wrapper">
                 {emotionData.map((emotion, index) => {
                     return < EmotionItem key={index} {...emotion} isSelected={emotion.emotionId === input.emotionId}
-                                         onChange={()=>{
+                                         onChange={() => {
                                              console.log(emotion.emotionId);
-                                             onInputChange({target:{name:"emotionId",value:emotion.emotionId}})
+                                             onInputChange({target: {name: "emotionId", value: emotion.emotionId}})
                                          }}/>
                 })}
             </div>
