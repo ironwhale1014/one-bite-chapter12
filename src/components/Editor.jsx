@@ -3,18 +3,25 @@ import Button from "./Button.jsx";
 import {emotionData} from "../constants/emtionData.jsx";
 import EmotionItem from "./EmotionItem.jsx";
 import {useState} from "react";
-import moment from "moment-timezone";
 import dateToString from "../util/dateToString.jsx";
+import {useNavigate} from "react-router-dom";
 
-const Editor = () => {
+const Editor = ({onSubmit}) => {
 
     const [input, setInput] = useState({
-        createDate: new Date(), emotionId: 3, content: ""
+        createdDate: new Date(), emotionId: 3, content: ""
     });
 
+    const nav = useNavigate();
+
     const onInputChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+        let name = e.target.name;
+        let value = e.target.value;
+
+        if (name === "createdDate") {
+            value = new Date(value);
+            console.log(value);
+        }
 
         setInput(
             {
@@ -24,11 +31,15 @@ const Editor = () => {
         )
     }
 
+    const onSubmitButtonClick = () => {
+        onSubmit(input);
+    }
+
 
     return (<div className="editor">
         <section className="date">
             <h4>오늘의 날짜</h4>
-            <input type="date" onChange={onInputChange} name="createDate" value={dateToString(input.createDate)}/>
+            <input type="date" onChange={onInputChange} name="createdDate" value={dateToString(input.createdDate)}/>
         </section>
         <section className="emotion">
             <h4>오늘의 감정</h4>
@@ -36,7 +47,6 @@ const Editor = () => {
                 {emotionData.map((emotion, index) => {
                     return < EmotionItem key={index} {...emotion} isSelected={emotion.emotionId === input.emotionId}
                                          onChange={() => {
-                                             console.log(emotion.emotionId);
                                              onInputChange({target: {name: "emotionId", value: emotion.emotionId}})
                                          }}/>
                 })}
@@ -49,8 +59,8 @@ const Editor = () => {
                       value={input.content}/>
         </section>
         <section className="button">
-            <Button text={"취소 하기"} type={"NEGATIVE"}/>
-            <Button text={"작성 완료"} type={"POSITIVE"}/>
+            <Button text={"취소 하기"} type={"NEGATIVE"} onClick={() => nav(-1)}/>
+            <Button text={"작성 완료"} type={"POSITIVE"} onClick={onSubmitButtonClick}/>
         </section>
     </div>);
 }
